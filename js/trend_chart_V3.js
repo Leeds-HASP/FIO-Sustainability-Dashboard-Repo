@@ -354,10 +354,7 @@ function createTrendChart(data, {width = 960} = {}) {
     .style('color', '#777')
     .style('line-height', '1.6')
     .style('margin-bottom', '14px')
-    .text(
-      'Shows one smoothed trend line across the year per metric, ' +
-      'rising when purchasing was more environmentally intensive. ' +
-      "Check 'How to' and 'Definitions'."
+    .text('Use this chart to explore how the environmental impact of food and drink sales varies throughout the year. '
     );
 
   // position: relative anchors the absolute legend block on wide screens.

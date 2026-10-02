@@ -392,10 +392,9 @@ function createHeatmap(weeklyData, { width = 960, onStats = null } = {}) {
     .style('line-height', '1.6')
     .style('margin-bottom', '14px')
     .text(
-      'Each row is 1 food category, each column is 1 week. ' +
-      'Cell colour shows how that category compared to its own typical ' +
-      'level for the year (not to other categories). ' +
-      "Check 'How to' and 'Definitions'."
+      'Use this chart to explore how the environmental impact of specific food and drink categories varies throughout the year.'+
+      'The cell colour indicates how much the category has deviated from the category average. '+
+      'You should only compare colours WITHIN a row, not between rows. '
     );
 
   // position: relative anchors the absolute legend block.
