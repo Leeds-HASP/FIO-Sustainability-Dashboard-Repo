@@ -646,6 +646,16 @@ function createTrendChart(data, {width = 960} = {}) {
     .style('display', 'none').style('max-width', '240px')
     .style('z-index', '10');
 
+  const evtTooltip = container.append('div')
+    .style('position', 'absolute').style('pointer-events', 'none')
+    .style('background', 'rgba(255,255,255,0.97)')
+    .style('border', '1px solid #ddd').style('border-radius', '5px')
+    .style('padding', '5px 9px').style('font-size', '12px')
+    .style('line-height', '1.5')
+    .style('box-shadow', '0 1px 6px rgba(0,0,0,0.10)')
+    .style('display', 'none').style('max-width', '200px')
+    .style('z-index', '21');
+
   // footnoteEl inside tpChartScroll scrolls horizontally with the chart.
   const footnoteEl = tpChartScroll.append('p')
     .style('font-size', LAYOUT.FOOTNOTE_SIZE)
@@ -687,14 +697,15 @@ function createTrendChart(data, {width = 960} = {}) {
 
       const markerG = eventGroup.append('g')
         .attr('class', 'event-marker')
-        .style('cursor', 'default');
+        .style('cursor', 'pointer');
 
       // Full-height dashed line through chart body
       markerG.append('line')
         .attr('x1', ex).attr('x2', ex)
         .attr('y1', LAYOUT.EVENT_TICK_Y2).attr('y2', H)
         .attr('stroke', '#bbb').attr('stroke-width', 1)
-        .attr('stroke-dasharray', '4,3');
+        .attr('stroke-dasharray', '4,3')
+        .style('pointer-events', 'none');
 
       // Short solid tick above grid
       markerG.append('line')
@@ -707,15 +718,25 @@ function createTrendChart(data, {width = 960} = {}) {
         .attr('cx', ex).attr('cy', LAYOUT.EVENT_TICK_Y2)
         .attr('r', 3).attr('fill', '#aaa');
 
-      // Rotated label above tick.
-      // fill #767676 passes WCAG AA contrast (4.5:1 on white).
-      markerG.append('text')
-        .attr('transform',
-          'translate(' + (ex + 3) + ',' + LAYOUT.EVENT_LABEL_Y + ') rotate(-90)')
-        .attr('text-anchor', 'start')
-        .style('font-size', '9px')
-        .style('fill', '#767676')
-        .text(evt.label);
+      markerG
+        .on('mouseover', function (event) {
+          tooltip.style('display', 'none');
+          evtTooltip.style('display', null).html(
+            '<div style="font-weight:600;color:#888;margin-bottom:2px">' +
+            evt.label + '</div>' +
+            '<div style="color:#555">' + fmtDate(evtDate) + '</div>'
+          );
+          const cRect     = container.node().getBoundingClientRect();
+          const tipW      = 190;
+          const cursorX   = event.clientX - cRect.left;
+          const openRight = cursorX + tipW + 15 < cRect.width;
+          evtTooltip
+            .style('left', (openRight
+              ? cursorX + 10
+              : cursorX - tipW - 10) + 'px')
+            .style('top', (event.clientY - cRect.top - 40) + 'px');
+        })
+        .on('mouseleave', function () { evtTooltip.style('display', 'none'); });
     });
 
     footnoteEl.text(EVENT_FOOTNOTES[activeEventGroup] || '');
