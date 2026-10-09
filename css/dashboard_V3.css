@@ -81,6 +81,13 @@ To change:
   padding-bottom: 5px;
 }
 
+.nav-subtext {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #555;
+  text-align: left;
+}
+
 .tab-nav-inner {
   display: flex;
   align-items: center;
@@ -179,7 +186,7 @@ To change:
 
 .page-layout {
   position: fixed;
-  top: 48px;
+  top: 72px;
   left: 0;
   right: 0;
   bottom: 0;
@@ -481,7 +488,7 @@ To change:
 /* About page: full-width fixed panel, outside the sidebar grid */
 .about-page-panel {
   position: fixed;
-  top: 48px;
+  top: 72px;
   left: 0;
   right: 0;
   bottom: 0;
@@ -514,7 +521,7 @@ To change:
 .about-two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: calc(100vh - 48px);
+  height: calc(100vh - 72px);
   overflow: hidden;
   padding: 10px 15px;
   background-color: #ffffff;
@@ -747,7 +754,7 @@ a:focus-visible,
     display: flex;
     flex-direction: column;
     overflow: visible;
-    padding-top: 48px;
+    padding-top: 72px;
     height: auto;
   }
 
