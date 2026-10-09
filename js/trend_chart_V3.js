@@ -758,10 +758,10 @@ function createTrendChart(data, {width = 960} = {}) {
       .domain([dFrom, dTo])
       .range([0, W]);
 
-    // Y scale: composite fixed 0-1, all others auto-range with padding
+    // Y scale: composite fixed 0.4-1, all others auto-range with padding
     let yDomainMin, yDomainMax;
     if (activeMKey === 'composite') {
-      yDomainMin = 0;
+      yDomainMin = 0.4;
       yDomainMax = 1;
     } else {
       const ext   = d3.extent(plotData, function (d) { return d.value; });
@@ -818,7 +818,7 @@ function createTrendChart(data, {width = 960} = {}) {
     // Y-axis: composite uses explicit ticks, others use auto
     const yAxisCall = activeMKey === 'composite'
       ? d3.axisLeft(yScale)
-          .tickValues([0, 0.2, 0.4, 0.6, 0.8, 1.0])
+          .tickValues([0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0])
           .tickFormat(d3.format('.1f'))
       : d3.axisLeft(yScale).ticks(6).tickFormat(axisFormatter);
 
@@ -828,9 +828,13 @@ function createTrendChart(data, {width = 960} = {}) {
 
     // Horizontal gridlines
     gridGroup.selectAll('*').remove();
-    gridGroup.call(
-      d3.axisLeft(yScale).ticks(6).tickSize(-W).tickFormat('')
-    );
+    const gridAxis = d3.axisLeft(yScale).tickSize(-W).tickFormat('');
+    if (activeMKey === 'composite') {
+      gridAxis.tickValues([0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]);
+    } else {
+      gridAxis.ticks(6);
+    }
+    gridGroup.call(gridAxis);
     gridGroup.selectAll('line')
       .attr('stroke', '#e8e8e8')
       .attr('stroke-dasharray', '2,2');
