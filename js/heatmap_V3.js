@@ -1079,7 +1079,19 @@ function createHeatmap(weeklyData, { width = 960, onStats = null } = {}) {
         .attr('x', -6).attr('y', cy)
         .attr('text-anchor', 'end').attr('dominant-baseline', 'central')
         .style('font-size', labelFontSize).style('fill', '#444')
-        .text(cat.length > 26 ? cat.slice(0, 25) + '\u2026' : cat);
+        .style('cursor', 'default')
+        .text(cat.length > 26 ? cat.slice(0, 25) + '\u2026' : cat)
+        .on('mouseover', function (event) {
+          tooltip.style('display', 'none');
+          evtTooltip.style('display', null).html(
+            '<div style="font-weight:600;color:#555">' + cat + '</div>'
+          );
+          var cRect = container.node().getBoundingClientRect();
+          evtTooltip
+            .style('left', (event.clientX - cRect.left + 12) + 'px')
+            .style('top',  (event.clientY - cRect.top  - 30) + 'px');
+        })
+        .on('mouseleave', function () { evtTooltip.style('display', 'none'); });
     });
 
     // Y-axis label
