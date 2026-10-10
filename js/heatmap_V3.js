@@ -908,32 +908,33 @@ function createHeatmap(weeklyData, { width = 960, onStats = null } = {}) {
         .attr('stop-color', activePkg ? cfg.pkg_interpolator(t) : activeInterp(t));
     });
 
+    var LEG_W = 250;
     var legG = axisLegGroup.append('g')
-      .attr('transform', 'translate(' + (W - 125) + ',' + (chart_H + 20) + ')');
+      .attr('transform', 'translate(' + (W + 15 - LEG_W) + ',' + (chart_H + 20) + ')');
 
     legG.append('text').attr('x', 0).attr('y', 5)
       .style('font-size', '9px').style('fill', '#999')
       .text(activePkg ? 'Deviation from annual mean:' : 'Per-row scale:');
 
     legG.append('rect')
-      .attr('y', 10).attr('width', 140).attr('height', 10).attr('rx', 2)
+      .attr('y', 10).attr('width', LEG_W).attr('height', 10).attr('rx', 2)
       .style('fill', 'url(#hm-v3-legend-grad)');
 
     if (activePkg) {
       legG.append('text').attr('x', 0).attr('y', 30)
-        .style('font-size', '9px').style('fill', '#bbb').text('Below mean');
-      legG.append('text').attr('x', 70).attr('y', 30)
+        .style('font-size', '9px').style('fill', '#767676').text('Below mean');
+      legG.append('text').attr('x', LEG_W / 2).attr('y', 30)
         .attr('text-anchor', 'middle')
-        .style('font-size', '9px').style('fill', '#bbb').text('Annual mean');
-      legG.append('text').attr('x', 140).attr('y', 30)
+        .style('font-size', '9px').style('fill', '#767676').text('Annual mean');
+      legG.append('text').attr('x', LEG_W).attr('y', 30)
         .attr('text-anchor', 'end')
-        .style('font-size', '9px').style('fill', '#bbb').text('Above mean');
+        .style('font-size', '9px').style('fill', '#767676').text('Above mean');
     } else {
       legG.append('text').attr('x', 0).attr('y', 30)
-        .style('font-size', '9px').style('fill', '#bbb').text('Low');
-      legG.append('text').attr('x', 140).attr('y', 30)
+        .style('font-size', '9px').style('fill', '#767676').text('Low');
+      legG.append('text').attr('x', LEG_W).attr('y', 30)
         .attr('text-anchor', 'end')
-        .style('font-size', '9px').style('fill', '#bbb').text('High');
+        .style('font-size', '9px').style('fill', '#767676').text('High');
     }
 
     // Per-category colour scales
