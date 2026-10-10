@@ -176,12 +176,18 @@ function createTrendChart(data, {width = 960} = {}) {
     ],
   };
 
+  const EVENT_MARKER_ICON =
+    '<svg width="8" height="14" style="display:inline-block;vertical-align:-3px">' +
+    '<line x1="4" x2="4" y1="0" y2="9" stroke="#aaa" stroke-width="1.5"/>' +
+    '<circle cx="4" cy="9" r="3" fill="#aaa"/></svg>';
+
   const EVENT_FOOTNOTES = {
-    public_holidays : 'BH = Bank Holiday',
-    cultural_events : 'S = Period start  E = Period end',
-    school_calendar : 'SH = School Holidays  S = Period start  E = Period end',
-    weather_events  : 'HW = Heatwave number in brackets = duration in days',
-    sporting_events : 'CG = Commonwealth Games  ' +
+    public_holidays : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.  BH = Bank Holiday',
+    cultural_events : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.  S = Period start  E = Period end',
+    school_calendar : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.  SH = School Holidays  S = Period start  E = Period end',
+    weather_events  : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.  HW = Heatwave number in brackets = duration in days',
+    sporting_events : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.  ' +
+                      'CG = Commonwealth Games  ' +
                       '  WC = World Cup  WE = UEFA Women\'s Euro  ' +
                       'S = Period start  E = Period end',
   };
@@ -659,10 +665,11 @@ function createTrendChart(data, {width = 960} = {}) {
   // footnoteEl inside tpChartScroll scrolls horizontally with the chart.
   const footnoteEl = tpChartScroll.append('p')
     .style('font-size', LAYOUT.FOOTNOTE_SIZE)
-    .style('color', '#bbb')
+    .style('color', '#767676')
+    .style('white-space', 'nowrap')
     .style('margin', LAYOUT.FOOTNOTE_MARGIN)
     .style('min-height', '18px')
-    .text(EVENT_FOOTNOTES['public_holidays'] || '');
+    .html(EVENT_FOOTNOTES['public_holidays'] || '');
 
 
   /* 1f. EVENT MARKERS
@@ -739,7 +746,7 @@ function createTrendChart(data, {width = 960} = {}) {
         .on('mouseleave', function () { evtTooltip.style('display', 'none'); });
     });
 
-    footnoteEl.text(EVENT_FOOTNOTES[activeEventGroup] || '');
+    footnoteEl.html(EVENT_FOOTNOTES[activeEventGroup] || '');
   }
 
 
