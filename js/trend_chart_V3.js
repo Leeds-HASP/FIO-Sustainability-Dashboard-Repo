@@ -127,18 +127,18 @@ function createTrendChart(data, {width = 960} = {}) {
   // update dates to real data once ready.
   const EVENTS_BY_GROUP = {
     public_holidays: [
-      {date: '2022-04-18', label: 'Easter Monday BH'},
-      {date: '2022-05-02', label: 'Early May BH'},
-      {date: '2022-06-02', label: 'Spring/Jubilee BH'},
-      {date: '2022-08-29', label: 'Summer BH'},
-      {date: '2022-09-19', label: "Queen Funeral BH"},
-      {date: '2022-12-27', label: 'Christmas Day BH'},
+      {date: '2022-04-18', label: 'Easter Monday Bank Holiday'},
+      {date: '2022-05-02', label: 'Early May Bank Holiday'},
+      {date: '2022-06-02', label: 'Spring/Jubilee Bank Holiday'},
+      {date: '2022-08-29', label: 'Summer Bank Holiday'},
+      {date: '2022-09-19', label: "Queen Funeral Bank Holiday"},
+      {date: '2022-12-27', label: 'Christmas Day Bank Holiday'},
     ],
     cultural_events: [
       {date: '2022-03-27', label: "Mother's Day"},
-      {date: '2022-04-02', label: 'Ramadan S'},
+      {date: '2022-04-02', label: 'Ramadan Start'},
       {date: '2022-04-15', label: 'Good Friday'},
-      {date: '2022-05-02', label: 'Ramadan E'},
+      {date: '2022-05-02', label: 'Ramadan End'},
       {date: '2022-06-19', label: "Father's Day"},
       {date: '2022-10-24', label: 'Diwali'},
       {date: '2022-10-31', label: 'Halloween'},
@@ -146,18 +146,18 @@ function createTrendChart(data, {width = 960} = {}) {
       {date: '2022-12-31', label: "New Year's Eve"},
     ],
     school_calendar: [
-      {date: "2022-02-19", label: "Spring Half Term S"},
-      {date: "2022-02-27", label: "Spring Half Term E"},
-      {date: "2022-04-04", label: "Easter Holidays S"},
-      {date: "2022-04-14", label: "Easter Holidays E"},
-      {date: "2022-05-28", label: "Summer Half Term S"},
-      {date: "2022-06-05", label: "Summer Half Term E"},
-      {date: "2022-07-23", label: "Summer Holidays S"},
-      {date: "2022-09-04", label: "Summer Holidays E"},
-      {date: "2022-10-22", label: "Autumn Half Term S"},
-      {date: "2022-10-30", label: "Autumn Half Term E"},
-      {date: "2022-12-17", label: "Christmas Holidays S"},
-      {date: "2022-12-30", label: "Christmas Holidays E"},
+      {date: "2022-02-19", label: "Spring Half Term Start"},
+      {date: "2022-02-27", label: "Spring Half Term End"},
+      {date: "2022-04-04", label: "Easter Holidays Start"},
+      {date: "2022-04-14", label: "Easter Holidays End"},
+      {date: "2022-05-28", label: "Summer Half Term Start"},
+      {date: "2022-06-05", label: "Summer Half Term End"},
+      {date: "2022-07-23", label: "Summer Holidays Start"},
+      {date: "2022-09-04", label: "Summer Holidays End"},
+      {date: "2022-10-22", label: "Autumn Half Term Start"},
+      {date: "2022-10-30", label: "Autumn Half Term End"},
+      {date: "2022-12-17", label: "Christmas Holidays Start"},
+      {date: "2022-12-30", label: "Christmas Holidays End"},
     ],
     weather_events: [
       {date: '2022-06-16', label: 'June HW (3 days)'},
@@ -165,25 +165,30 @@ function createTrendChart(data, {width = 960} = {}) {
       {date: '2022-08-12', label: 'August HW (5 days)'},
     ],
     sporting_events: [
-      // {date: "2022-02-05", label: "Six Nations S"},
-      {date: "2022-03-19", label: "Six Nations E"},
-      // {date: "2022-07-06", label: "UEFA Women's Euro S"},
-      {date: "2022-07-31", label: "UEFA WE E"},
-      // {date: "2022-07-28", label: "Commonwealth Games S"},
-      {date: "2022-08-08", label: "CG Games E"},
-      // {date: "2022-11-20", label: "FIFA World Cup S"},
-      {date: "2022-12-18", label: "FIFA WC E"},
+      // {date: "2022-02-05", label: "Six Nations Start"},
+      {date: "2022-03-19", label: "Six Nations End"},
+      // {date: "2022-07-06", label: "UEFA Women's Euro Start"},
+      {date: "2022-07-31", label: "UEFA WE End"},
+      // {date: "2022-07-28", label: "Commonwealth Games Start"},
+      {date: "2022-08-08", label: "CG Games End"},
+      // {date: "2022-11-20", label: "FIFA World Cup Start"},
+      {date: "2022-12-18", label: "FIFA WC End"},
     ],
   };
 
+  const EVENT_MARKER_ICON =
+    '<svg width="8" height="14" style="display:inline-block;vertical-align:-3px">' +
+    '<line x1="4" x2="4" y1="0" y2="9" stroke="#aaa" stroke-width="1.5"/>' +
+    '<circle cx="4" cy="9" r="3" fill="#aaa"/></svg>';
+
   const EVENT_FOOTNOTES = {
-    public_holidays : 'BH = Bank Holiday',
-    cultural_events : 'S = Period start  E = Period end',
-    school_calendar : 'SH = School Holidays  S = Period start  E = Period end',
-    weather_events  : 'HW = Heatwave number in brackets = duration in days',
-    sporting_events : 'CG = Commonwealth Games  ' +
-                      '  WC = World Cup  WE = UEFA Women\'s Euro  ' +
-                      'S = Period start  E = Period end',
+    public_holidays : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.',
+    cultural_events : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.',
+    school_calendar : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.  SH = School Holidays',
+    weather_events  : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.  HW = Heatwave number in brackets = duration in days',
+    sporting_events : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.  ' +
+                      'CG = Commonwealth Games  ' +
+                      '  WC = World Cup  WE = UEFA Women\'s Euro',
   };
 
   const EVENT_GROUP_OPTIONS = [
@@ -646,13 +651,24 @@ function createTrendChart(data, {width = 960} = {}) {
     .style('display', 'none').style('max-width', '240px')
     .style('z-index', '10');
 
+  const evtTooltip = container.append('div')
+    .style('position', 'absolute').style('pointer-events', 'none')
+    .style('background', 'rgba(255,255,255,0.97)')
+    .style('border', '1px solid #ddd').style('border-radius', '5px')
+    .style('padding', '5px 9px').style('font-size', '12px')
+    .style('line-height', '1.5')
+    .style('box-shadow', '0 1px 6px rgba(0,0,0,0.10)')
+    .style('display', 'none').style('max-width', '200px')
+    .style('z-index', '21');
+
   // footnoteEl inside tpChartScroll scrolls horizontally with the chart.
   const footnoteEl = tpChartScroll.append('p')
     .style('font-size', LAYOUT.FOOTNOTE_SIZE)
-    .style('color', '#bbb')
+    .style('color', '#767676')
+    .style('white-space', 'nowrap')
     .style('margin', LAYOUT.FOOTNOTE_MARGIN)
     .style('min-height', '18px')
-    .text(EVENT_FOOTNOTES['public_holidays'] || '');
+    .html(EVENT_FOOTNOTES['public_holidays'] || '');
 
 
   /* 1f. EVENT MARKERS
@@ -687,14 +703,21 @@ function createTrendChart(data, {width = 960} = {}) {
 
       const markerG = eventGroup.append('g')
         .attr('class', 'event-marker')
-        .style('cursor', 'default');
+        .style('cursor', 'pointer');
+
+      // Invisible enlarged hover area around the tick and dot
+      markerG.append('rect')
+        .attr('x', ex - 8).attr('y', LAYOUT.EVENT_TICK_Y1 - 4)
+        .attr('width', 16).attr('height', LAYOUT.EVENT_TICK_Y2 - LAYOUT.EVENT_TICK_Y1 + 12)
+        .attr('fill', 'transparent');
 
       // Full-height dashed line through chart body
       markerG.append('line')
         .attr('x1', ex).attr('x2', ex)
         .attr('y1', LAYOUT.EVENT_TICK_Y2).attr('y2', H)
         .attr('stroke', '#bbb').attr('stroke-width', 1)
-        .attr('stroke-dasharray', '4,3');
+        .attr('stroke-dasharray', '4,3')
+        .style('pointer-events', 'none');
 
       // Short solid tick above grid
       markerG.append('line')
@@ -707,18 +730,28 @@ function createTrendChart(data, {width = 960} = {}) {
         .attr('cx', ex).attr('cy', LAYOUT.EVENT_TICK_Y2)
         .attr('r', 3).attr('fill', '#aaa');
 
-      // Rotated label above tick.
-      // fill #767676 passes WCAG AA contrast (4.5:1 on white).
-      markerG.append('text')
-        .attr('transform',
-          'translate(' + (ex + 3) + ',' + LAYOUT.EVENT_LABEL_Y + ') rotate(-90)')
-        .attr('text-anchor', 'start')
-        .style('font-size', '9px')
-        .style('fill', '#767676')
-        .text(evt.label);
+      markerG
+        .on('mouseover', function (event) {
+          tooltip.style('display', 'none');
+          evtTooltip.style('display', null).html(
+            '<div style="font-weight:600;color:#888;margin-bottom:2px">' +
+            evt.label + '</div>' +
+            '<div style="color:#555">' + fmtDate(evtDate) + '</div>'
+          );
+          const cRect     = container.node().getBoundingClientRect();
+          const tipW      = 190;
+          const cursorX   = event.clientX - cRect.left;
+          const openRight = cursorX + tipW + 15 < cRect.width;
+          evtTooltip
+            .style('left', (openRight
+              ? cursorX + 10
+              : cursorX - tipW - 10) + 'px')
+            .style('top', (event.clientY - cRect.top - 40) + 'px');
+        })
+        .on('mouseleave', function () { evtTooltip.style('display', 'none'); });
     });
 
-    footnoteEl.text(EVENT_FOOTNOTES[activeEventGroup] || '');
+    footnoteEl.html(EVENT_FOOTNOTES[activeEventGroup] || '');
   }
 
 
@@ -758,10 +791,10 @@ function createTrendChart(data, {width = 960} = {}) {
       .domain([dFrom, dTo])
       .range([0, W]);
 
-    // Y scale: composite fixed 0-1, all others auto-range with padding
+    // Y scale: composite fixed 0.4-1, all others auto-range with padding
     let yDomainMin, yDomainMax;
     if (activeMKey === 'composite') {
-      yDomainMin = 0;
+      yDomainMin = 0.4;
       yDomainMax = 1;
     } else {
       const ext   = d3.extent(plotData, function (d) { return d.value; });
@@ -818,7 +851,7 @@ function createTrendChart(data, {width = 960} = {}) {
     // Y-axis: composite uses explicit ticks, others use auto
     const yAxisCall = activeMKey === 'composite'
       ? d3.axisLeft(yScale)
-          .tickValues([0, 0.2, 0.4, 0.6, 0.8, 1.0])
+          .tickValues([0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0])
           .tickFormat(d3.format('.1f'))
       : d3.axisLeft(yScale).ticks(6).tickFormat(axisFormatter);
 
@@ -828,9 +861,13 @@ function createTrendChart(data, {width = 960} = {}) {
 
     // Horizontal gridlines
     gridGroup.selectAll('*').remove();
-    gridGroup.call(
-      d3.axisLeft(yScale).ticks(6).tickSize(-W).tickFormat('')
-    );
+    const gridAxis = d3.axisLeft(yScale).tickSize(-W).tickFormat('');
+    if (activeMKey === 'composite') {
+      gridAxis.tickValues([0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]);
+    } else {
+      gridAxis.ticks(6);
+    }
+    gridGroup.call(gridAxis);
     gridGroup.selectAll('line')
       .attr('stroke', '#e8e8e8')
       .attr('stroke-dasharray', '2,2');

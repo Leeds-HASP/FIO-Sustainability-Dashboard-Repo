@@ -158,18 +158,18 @@ function createHeatmap(weeklyData, { width = 960, onStats = null } = {}) {
   // Event dates match 2023 dummy data.
   const EVENTS_BY_GROUP = {
     public_holidays: [
-      {date: '2022-04-18', label: 'Easter Monday BH'},
-      {date: '2022-05-02', label: 'Early May BH'},
-      {date: '2022-06-02', label: 'Spring/Jubilee BH'},
-      {date: '2022-08-29', label: 'Summer BH'},
-      {date: '2022-09-19', label: "Queen Funeral BH"},
-      {date: '2022-12-27', label: 'Christmas Day BH'},
+      {date: '2022-04-18', label: 'Easter Monday Bank Holiday'},
+      {date: '2022-05-02', label: 'Early May Bank Holiday'},
+      {date: '2022-06-02', label: 'Spring/Jubilee Bank Holiday'},
+      {date: '2022-08-29', label: 'Summer Bank Holiday'},
+      {date: '2022-09-19', label: "Queen Funeral Bank Holiday"},
+      {date: '2022-12-27', label: 'Christmas Day Bank Holiday'},
     ],
     cultural_events: [
       {date: '2022-03-27', label: "Mother's Day"},
-      {date: '2022-04-02', label: 'Ramadan S'},
+      {date: '2022-04-02', label: 'Ramadan Start'},
       {date: '2022-04-15', label: 'Good Friday'},
-      {date: '2022-05-02', label: 'Ramadan E'},
+      {date: '2022-05-02', label: 'Ramadan End'},
       {date: '2022-06-19', label: "Father's Day"},
       {date: '2022-10-24', label: 'Diwali'},
       {date: '2022-10-31', label: 'Halloween'},
@@ -177,18 +177,18 @@ function createHeatmap(weeklyData, { width = 960, onStats = null } = {}) {
       {date: '2022-12-31', label: "New Year's Eve"},
     ],
     school_calendar: [
-      {date: "2022-02-19", label: "Spring Half Term S"},
-      {date: "2022-02-27", label: "Spring Half Term E"},
-      {date: "2022-04-04", label: "Easter Holidays S"},
-      {date: "2022-04-14", label: "Easter Holidays E"},
-      {date: "2022-05-28", label: "Summer Half Term S"},
-      {date: "2022-06-05", label: "Summer Half Term E"},
-      {date: "2022-07-23", label: "Summer Holidays S"},
-      {date: "2022-09-04", label: "Summer Holidays E"},
-      {date: "2022-10-22", label: "Autumn Half Term S"},
-      {date: "2022-10-30", label: "Autumn Half Term E"},
-      {date: "2022-12-17", label: "Christmas Holidays S"},
-      {date: "2022-12-30", label: "Christmas Holidays E"},
+      {date: "2022-02-19", label: "Spring Half Term Start"},
+      {date: "2022-02-27", label: "Spring Half Term End"},
+      {date: "2022-04-04", label: "Easter Holidays Start"},
+      {date: "2022-04-14", label: "Easter Holidays End"},
+      {date: "2022-05-28", label: "Summer Half Term Start"},
+      {date: "2022-06-05", label: "Summer Half Term End"},
+      {date: "2022-07-23", label: "Summer Holidays Start"},
+      {date: "2022-09-04", label: "Summer Holidays End"},
+      {date: "2022-10-22", label: "Autumn Half Term Start"},
+      {date: "2022-10-30", label: "Autumn Half Term End"},
+      {date: "2022-12-17", label: "Christmas Holidays Start"},
+      {date: "2022-12-30", label: "Christmas Holidays End"},
     ],
     weather_events: [
       {date: '2022-06-16', label: 'June HW (3 days)'},
@@ -196,25 +196,30 @@ function createHeatmap(weeklyData, { width = 960, onStats = null } = {}) {
       {date: '2022-08-12', label: 'August HW (5 days)'},
     ],
     sporting_events: [
-      // {date: "2022-02-05", label: "Six Nations S"},
-      {date: "2022-03-19", label: "Six Nations E"},
-      // {date: "2022-07-06", label: "UEFA Women's Euro S"},
-      {date: "2022-07-31", label: "UEFA WE E"},
-      // {date: "2022-07-28", label: "Commonwealth Games S"},
-      {date: "2022-08-08", label: "CG Games E"},
-      // {date: "2022-11-20", label: "FIFA World Cup S"},
-      {date: "2022-12-18", label: "FIFA WC E"},
+      // {date: "2022-02-05", label: "Six Nations Start"},
+      {date: "2022-03-19", label: "Six Nations End"},
+      // {date: "2022-07-06", label: "UEFA Women's Euro Start"},
+      {date: "2022-07-31", label: "UEFA WE End"},
+      // {date: "2022-07-28", label: "Commonwealth Games Start"},
+      {date: "2022-08-08", label: "CG Games End"},
+      // {date: "2022-11-20", label: "FIFA World Cup Start"},
+      {date: "2022-12-18", label: "FIFA WC End"},
     ],
   };
 
+  const EVENT_MARKER_ICON =
+    '<svg width="8" height="14" style="display:inline-block;vertical-align:-3px">' +
+    '<line x1="4" x2="4" y1="0" y2="9" stroke="#aaa" stroke-width="1.5"/>' +
+    '<circle cx="4" cy="9" r="3" fill="#aaa"/></svg>';
+
   const EVENT_FOOTNOTES = {
-    public_holidays : 'BH = Bank Holiday',
-    cultural_events : 'S = Period start  E = Period end',
-    school_calendar : 'SH = School Holidays  S = Period start  E = Period end',
-    weather_events  : 'HW = Heatwave number in brackets = duration in days',
-    sporting_events : 'CG = Commonwealth Games  ' +
-                      '  WC = World Cup  WE = UEFA Women\'s Euro  ' +
-                      'S = Period start  E = Period end',
+    public_holidays : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.',
+    cultural_events : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.',
+    school_calendar : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.  SH = School Holidays',
+    weather_events  : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.  HW = Heatwave number in brackets = duration in days',
+    sporting_events : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.  ' +
+                      'CG = Commonwealth Games  ' +
+                      '  WC = World Cup  WE = UEFA Women\'s Euro',
   };
 
 
@@ -758,9 +763,10 @@ function createHeatmap(weeklyData, { width = 960, onStats = null } = {}) {
 
   // Footnote inside hmChartScroll so it scrolls horizontally with the chart.
   const footnoteEl = hmChartScroll.append('p')
-    .style('font-size', '12px').style('color', '#bbb')
+    .style('font-size', '12px').style('color', '#767676')
+    .style('white-space', 'nowrap')
     .style('margin', '10px 0 6px 0').style('min-height', '16px')
-    .text(EVENT_FOOTNOTES['public_holidays'] || '');
+    .html(EVENT_FOOTNOTES['public_holidays'] || '');
 
 
   /* 1g. REDRAW
@@ -902,32 +908,33 @@ function createHeatmap(weeklyData, { width = 960, onStats = null } = {}) {
         .attr('stop-color', activePkg ? cfg.pkg_interpolator(t) : activeInterp(t));
     });
 
+    var LEG_W = 250;
     var legG = axisLegGroup.append('g')
-      .attr('transform', 'translate(' + (W - 125) + ',' + (chart_H + 20) + ')');
+      .attr('transform', 'translate(' + (W + 15 - LEG_W) + ',' + (chart_H + 20) + ')');
 
     legG.append('text').attr('x', 0).attr('y', 5)
       .style('font-size', '9px').style('fill', '#999')
       .text(activePkg ? 'Deviation from annual mean:' : 'Per-row scale:');
 
     legG.append('rect')
-      .attr('y', 10).attr('width', 140).attr('height', 10).attr('rx', 2)
+      .attr('y', 10).attr('width', LEG_W).attr('height', 10).attr('rx', 2)
       .style('fill', 'url(#hm-v3-legend-grad)');
 
     if (activePkg) {
       legG.append('text').attr('x', 0).attr('y', 30)
-        .style('font-size', '9px').style('fill', '#bbb').text('Below mean');
-      legG.append('text').attr('x', 70).attr('y', 30)
+        .style('font-size', '9px').style('fill', '#767676').text('Below mean');
+      legG.append('text').attr('x', LEG_W / 2).attr('y', 30)
         .attr('text-anchor', 'middle')
-        .style('font-size', '9px').style('fill', '#bbb').text('Annual mean');
-      legG.append('text').attr('x', 140).attr('y', 30)
+        .style('font-size', '9px').style('fill', '#767676').text('Annual mean');
+      legG.append('text').attr('x', LEG_W).attr('y', 30)
         .attr('text-anchor', 'end')
-        .style('font-size', '9px').style('fill', '#bbb').text('Above mean');
+        .style('font-size', '9px').style('fill', '#767676').text('Above mean');
     } else {
       legG.append('text').attr('x', 0).attr('y', 30)
-        .style('font-size', '9px').style('fill', '#bbb').text('Low');
-      legG.append('text').attr('x', 140).attr('y', 30)
+        .style('font-size', '9px').style('fill', '#767676').text('Low');
+      legG.append('text').attr('x', LEG_W).attr('y', 30)
         .attr('text-anchor', 'end')
-        .style('font-size', '9px').style('fill', '#bbb').text('High');
+        .style('font-size', '9px').style('fill', '#767676').text('High');
     }
 
     // Per-category colour scales
@@ -1017,6 +1024,12 @@ function createHeatmap(weeklyData, { width = 960, onStats = null } = {}) {
         .attr('class', 'event-marker')
         .style('cursor', 'pointer');
 
+      // Invisible enlarged hover area around the tick and dot
+      markerG.append('rect')
+        .attr('x', ex - 8).attr('y', -16)
+        .attr('width', 16).attr('height', 16)
+        .attr('fill', 'transparent');
+
       // Short solid tick above cell boundary.
       // y1 controls how far the line extends above the dot at y2.
       // Increase y1 (e.g. -14 or -10) for a shorter line.
@@ -1057,7 +1070,7 @@ function createHeatmap(weeklyData, { width = 960, onStats = null } = {}) {
         .on('mouseleave', function () { evtTooltip.style('display', 'none'); });
     });
 
-    footnoteEl.text(EVENT_FOOTNOTES[activeEventGroup] || '');
+    footnoteEl.html(EVENT_FOOTNOTES[activeEventGroup] || '');
 
     // Row group horizontal dividers in body
     sortedCats.forEach(function (_, i) {
@@ -1079,7 +1092,19 @@ function createHeatmap(weeklyData, { width = 960, onStats = null } = {}) {
         .attr('x', -6).attr('y', cy)
         .attr('text-anchor', 'end').attr('dominant-baseline', 'central')
         .style('font-size', labelFontSize).style('fill', '#444')
-        .text(cat.length > 26 ? cat.slice(0, 25) + '\u2026' : cat);
+        .style('cursor', 'default')
+        .text(cat.length > 26 ? cat.slice(0, 25) + '\u2026' : cat)
+        .on('mouseover', function (event) {
+          tooltip.style('display', 'none');
+          evtTooltip.style('display', null).html(
+            '<div style="font-weight:600;color:#555">' + cat + '</div>'
+          );
+          var cRect = container.node().getBoundingClientRect();
+          evtTooltip
+            .style('left', (event.clientX - cRect.left + 12) + 'px')
+            .style('top',  (event.clientY - cRect.top  - 30) + 'px');
+        })
+        .on('mouseleave', function () { evtTooltip.style('display', 'none'); });
     });
 
     // Y-axis label
@@ -1088,7 +1113,7 @@ function createHeatmap(weeklyData, { width = 960, onStats = null } = {}) {
       .attr('x', -chart_H / 2).attr('y', -MARGIN.left + 10)
       .attr('text-anchor', 'middle')
       .style('font-size', '11px').style('fill', '#666')
-      .text('LCFS Categories (ranked by impact)');
+      .text('Product categories (ranked by impact)');
 
     // Rank axis header with hover hint
     rankGroup.append('text')
