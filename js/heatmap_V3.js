@@ -1107,7 +1107,7 @@ function createHeatmap(weeklyData, { width = 960, onStats = null } = {}) {
       .attr('x', -chart_H / 2).attr('y', -MARGIN.left + 10)
       .attr('text-anchor', 'middle')
       .style('font-size', '11px').style('fill', '#666')
-      .text('LCFS Categories (ranked by impact)');
+      .text('Product categories (ranked by impact)');
 
     // Rank axis header with hover hint
     rankGroup.append('text')

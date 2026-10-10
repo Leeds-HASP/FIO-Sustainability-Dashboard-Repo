@@ -17,7 +17,7 @@ The dashboard has two charts on separate tab pages:
 | Chart | Description |
 |---|---|
 | **Timeline** | Smoothed weekly trend for one environmental metric. Entry point for identifying periods of elevated or reduced footprint. |
-| **Heatmap** | 65 LCFS food categories x 52 weekly bins. Cell colour shows each category's footprint relative to its own annual typical level. |
+| **Heatmap** | 30 product categories x 52 weekly bins. Cell colour shows each category's footprint relative to its own annual typical level. |
 
 Each chart has its own independent metric selector, Total SF / Per kg toggle, event overlay dropdown, and date pickers. Charts initialise lazily on first activation so container width is always readable before rendering.
 
@@ -138,7 +138,7 @@ Bin 1: Jan-01 to Jan-07. Bin 52: Dec-24 to Dec-30. No null boundary rows: every 
 
 ### L2a_weekly_cat30.json
 
-Weekly bin values disaggregated to 65 LCFS food categories. 3,380 rows total (52 bins x 65 categories). 
+Weekly bin values disaggregated to 30 product categories. 1,560 rows total (52 bins x 30 categories). 
 
 Bins are Jan-01 anchored: Week 1 = Jan-01 to Jan-07, Week 2 = Jan-08 to Jan-14. The `week_start` field holds the first date of each bin.
 
@@ -148,7 +148,7 @@ Key columns alongside `week_start` and `lcfs_cat`:
 |---|---|
 | `{M}_weekly_mean` | Mean of daily SF values within the bin (M = GHGE, LU, WU) |
 | `{M}_perkg_weekly_mean` | Mean of daily per-kg values within the bin |
-| `{M}_weekly_rank` | Category rank by weekly mean among all 65 |
+| `{M}_weekly_rank` | Category rank by weekly mean among all 30 |
 | `{M}_annual_mean` | Annual mean of weekly bin means per category |
 | `{M}_annual_share` | Category fraction of grand total annual SF (%) |
 | `{M}_annual_min / max` | Weekly bin mean range across the year per category |
@@ -294,9 +294,9 @@ Chart tab active:
 
 ---
 
-## LCFS Food Categories
+## Product Categories
 
-The dashboard uses 65 food categories following the ONS Living Costs and Food Survey (LCFS) classification. The full category list is available in `notebooks/notebook_02_L2a_dummy.py` under the `LCFS_CATS` constant. A set of 30 categories was derived for the dashboard.
+The dashboard groups purchases into 30 food and drink product categories. The category names are read from the `lcfs_cat` column of the L2a data file (the column name is a legacy label).
 
 ---
 
