@@ -748,7 +748,7 @@ function createHeatmap(weeklyData, { width = 960, onStats = null } = {}) {
     .style('line-height', '1.8')
     .style('box-shadow', '0 2px 8px rgba(0,0,0,0.12)')
     .style('display', 'none').style('max-width', '280px')
-    .style('z-index', '20');
+    .style('z-index', '30');
 
   // Shared tooltip for event marker hover and rank strip hover
   const evtTooltip = container.append('div')
@@ -759,7 +759,7 @@ function createHeatmap(weeklyData, { width = 960, onStats = null } = {}) {
     .style('line-height', '1.5')
     .style('box-shadow', '0 1px 6px rgba(0,0,0,0.10)')
     .style('display', 'none').style('max-width', '200px')
-    .style('z-index', '21');
+    .style('z-index', '31');
 
   // Footnote inside hmChartScroll so it scrolls horizontally with the chart.
   const footnoteEl = hmChartScroll.append('p')
@@ -1026,8 +1026,8 @@ function createHeatmap(weeklyData, { width = 960, onStats = null } = {}) {
 
       // Invisible enlarged hover area around the tick and dot
       markerG.append('rect')
-        .attr('x', ex - 8).attr('y', -16)
-        .attr('width', 16).attr('height', 16)
+        .attr('x', ex - 6).attr('y', -16)
+        .attr('width', 12).attr('height', 16)
         .attr('fill', 'transparent');
 
       // Short solid tick above cell boundary.
@@ -1065,7 +1065,7 @@ function createHeatmap(weeklyData, { width = 960, onStats = null } = {}) {
             .style('left', (openRight
               ? cursorX + 10
               : cursorX - tipW - 10) + 'px')
-            .style('top', (event.clientY - cRect.top - 40) + 'px');
+            .style('top', (event.clientY - cRect.top + 16) + 'px');
         })
         .on('mouseleave', function () { evtTooltip.style('display', 'none'); });
     });
