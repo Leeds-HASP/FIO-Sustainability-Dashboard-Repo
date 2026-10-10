@@ -639,6 +639,7 @@ To change:
   border: 1px solid #e8e8e8;
   padding: 24px 24px 28px;
   overflow: hidden;
+  overflow: clip;
 }
 
 .chart-header {
@@ -658,6 +659,7 @@ To change:
 #heatmap-container {
   width: 100%;
   overflow: hidden;
+  overflow: clip;
   box-sizing: border-box;
 }
 
