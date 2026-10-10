@@ -649,7 +649,7 @@ function createTrendChart(data, {width = 960} = {}) {
     .style('line-height', '1.8')
     .style('box-shadow', '0 2px 8px rgba(0,0,0,0.12)')
     .style('display', 'none').style('max-width', '240px')
-    .style('z-index', '10');
+    .style('z-index', '30');
 
   const evtTooltip = container.append('div')
     .style('position', 'absolute').style('pointer-events', 'none')
@@ -659,7 +659,7 @@ function createTrendChart(data, {width = 960} = {}) {
     .style('line-height', '1.5')
     .style('box-shadow', '0 1px 6px rgba(0,0,0,0.10)')
     .style('display', 'none').style('max-width', '200px')
-    .style('z-index', '21');
+    .style('z-index', '31');
 
   // footnoteEl inside tpChartScroll scrolls horizontally with the chart.
   const footnoteEl = tpChartScroll.append('p')
@@ -707,8 +707,8 @@ function createTrendChart(data, {width = 960} = {}) {
 
       // Invisible enlarged hover area around the tick and dot
       markerG.append('rect')
-        .attr('x', ex - 8).attr('y', LAYOUT.EVENT_TICK_Y1 - 4)
-        .attr('width', 16).attr('height', LAYOUT.EVENT_TICK_Y2 - LAYOUT.EVENT_TICK_Y1 + 12)
+        .attr('x', ex - 6).attr('y', LAYOUT.EVENT_TICK_Y1 - 4)
+        .attr('width', 12).attr('height', LAYOUT.EVENT_TICK_Y2 - LAYOUT.EVENT_TICK_Y1 + 12)
         .attr('fill', 'transparent');
 
       // Full-height dashed line through chart body
@@ -746,7 +746,7 @@ function createTrendChart(data, {width = 960} = {}) {
             .style('left', (openRight
               ? cursorX + 10
               : cursorX - tipW - 10) + 'px')
-            .style('top', (event.clientY - cRect.top - 40) + 'px');
+            .style('top', (event.clientY - cRect.top + 16) + 'px');
         })
         .on('mouseleave', function () { evtTooltip.style('display', 'none'); });
     });
