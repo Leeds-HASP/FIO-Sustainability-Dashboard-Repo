@@ -127,18 +127,18 @@ function createTrendChart(data, {width = 960} = {}) {
   // update dates to real data once ready.
   const EVENTS_BY_GROUP = {
     public_holidays: [
-      {date: '2022-04-18', label: 'Easter Monday BH'},
-      {date: '2022-05-02', label: 'Early May BH'},
-      {date: '2022-06-02', label: 'Spring/Jubilee BH'},
-      {date: '2022-08-29', label: 'Summer BH'},
-      {date: '2022-09-19', label: "Queen Funeral BH"},
-      {date: '2022-12-27', label: 'Christmas Day BH'},
+      {date: '2022-04-18', label: 'Easter Monday Bank Holiday'},
+      {date: '2022-05-02', label: 'Early May Bank Holiday'},
+      {date: '2022-06-02', label: 'Spring/Jubilee Bank Holiday'},
+      {date: '2022-08-29', label: 'Summer Bank Holiday'},
+      {date: '2022-09-19', label: "Queen Funeral Bank Holiday"},
+      {date: '2022-12-27', label: 'Christmas Day Bank Holiday'},
     ],
     cultural_events: [
       {date: '2022-03-27', label: "Mother's Day"},
-      {date: '2022-04-02', label: 'Ramadan S'},
+      {date: '2022-04-02', label: 'Ramadan Start'},
       {date: '2022-04-15', label: 'Good Friday'},
-      {date: '2022-05-02', label: 'Ramadan E'},
+      {date: '2022-05-02', label: 'Ramadan End'},
       {date: '2022-06-19', label: "Father's Day"},
       {date: '2022-10-24', label: 'Diwali'},
       {date: '2022-10-31', label: 'Halloween'},
@@ -146,18 +146,18 @@ function createTrendChart(data, {width = 960} = {}) {
       {date: '2022-12-31', label: "New Year's Eve"},
     ],
     school_calendar: [
-      {date: "2022-02-19", label: "Spring Half Term S"},
-      {date: "2022-02-27", label: "Spring Half Term E"},
-      {date: "2022-04-04", label: "Easter Holidays S"},
-      {date: "2022-04-14", label: "Easter Holidays E"},
-      {date: "2022-05-28", label: "Summer Half Term S"},
-      {date: "2022-06-05", label: "Summer Half Term E"},
-      {date: "2022-07-23", label: "Summer Holidays S"},
-      {date: "2022-09-04", label: "Summer Holidays E"},
-      {date: "2022-10-22", label: "Autumn Half Term S"},
-      {date: "2022-10-30", label: "Autumn Half Term E"},
-      {date: "2022-12-17", label: "Christmas Holidays S"},
-      {date: "2022-12-30", label: "Christmas Holidays E"},
+      {date: "2022-02-19", label: "Spring Half Term Start"},
+      {date: "2022-02-27", label: "Spring Half Term End"},
+      {date: "2022-04-04", label: "Easter Holidays Start"},
+      {date: "2022-04-14", label: "Easter Holidays End"},
+      {date: "2022-05-28", label: "Summer Half Term Start"},
+      {date: "2022-06-05", label: "Summer Half Term End"},
+      {date: "2022-07-23", label: "Summer Holidays Start"},
+      {date: "2022-09-04", label: "Summer Holidays End"},
+      {date: "2022-10-22", label: "Autumn Half Term Start"},
+      {date: "2022-10-30", label: "Autumn Half Term End"},
+      {date: "2022-12-17", label: "Christmas Holidays Start"},
+      {date: "2022-12-30", label: "Christmas Holidays End"},
     ],
     weather_events: [
       {date: '2022-06-16', label: 'June HW (3 days)'},
@@ -165,14 +165,14 @@ function createTrendChart(data, {width = 960} = {}) {
       {date: '2022-08-12', label: 'August HW (5 days)'},
     ],
     sporting_events: [
-      // {date: "2022-02-05", label: "Six Nations S"},
-      {date: "2022-03-19", label: "Six Nations E"},
-      // {date: "2022-07-06", label: "UEFA Women's Euro S"},
-      {date: "2022-07-31", label: "UEFA WE E"},
-      // {date: "2022-07-28", label: "Commonwealth Games S"},
-      {date: "2022-08-08", label: "CG Games E"},
-      // {date: "2022-11-20", label: "FIFA World Cup S"},
-      {date: "2022-12-18", label: "FIFA WC E"},
+      // {date: "2022-02-05", label: "Six Nations Start"},
+      {date: "2022-03-19", label: "Six Nations End"},
+      // {date: "2022-07-06", label: "UEFA Women's Euro Start"},
+      {date: "2022-07-31", label: "UEFA WE End"},
+      // {date: "2022-07-28", label: "Commonwealth Games Start"},
+      {date: "2022-08-08", label: "CG Games End"},
+      // {date: "2022-11-20", label: "FIFA World Cup Start"},
+      {date: "2022-12-18", label: "FIFA WC End"},
     ],
   };
 
@@ -182,14 +182,13 @@ function createTrendChart(data, {width = 960} = {}) {
     '<circle cx="4" cy="9" r="3" fill="#aaa"/></svg>';
 
   const EVENT_FOOTNOTES = {
-    public_holidays : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.  BH = Bank Holiday',
-    cultural_events : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.  S = Period start  E = Period end',
-    school_calendar : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.  SH = School Holidays  S = Period start  E = Period end',
+    public_holidays : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.',
+    cultural_events : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.',
+    school_calendar : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.  SH = School Holidays',
     weather_events  : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.  HW = Heatwave number in brackets = duration in days',
     sporting_events : 'Hover over a marker ' + EVENT_MARKER_ICON + ' for event details.  ' +
                       'CG = Commonwealth Games  ' +
-                      '  WC = World Cup  WE = UEFA Women\'s Euro  ' +
-                      'S = Period start  E = Period end',
+                      '  WC = World Cup  WE = UEFA Women\'s Euro',
   };
 
   const EVENT_GROUP_OPTIONS = [
@@ -705,6 +704,12 @@ function createTrendChart(data, {width = 960} = {}) {
       const markerG = eventGroup.append('g')
         .attr('class', 'event-marker')
         .style('cursor', 'pointer');
+
+      // Invisible enlarged hover area around the tick and dot
+      markerG.append('rect')
+        .attr('x', ex - 8).attr('y', LAYOUT.EVENT_TICK_Y1 - 4)
+        .attr('width', 16).attr('height', LAYOUT.EVENT_TICK_Y2 - LAYOUT.EVENT_TICK_Y1 + 12)
+        .attr('fill', 'transparent');
 
       // Full-height dashed line through chart body
       markerG.append('line')
